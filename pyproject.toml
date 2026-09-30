@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "finpost"
+version = "0.1.0"
+description = "Post-training (QLoRA SFT + DPO) and serving of a small LLM for earnings-call summarization"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    # >=2.7 is the first release with CUDA 12.8 wheels, needed for Blackwell (sm_120) GPUs
+    "torch>=2.7",
+    "transformers>=5.0,<6",
+    "accelerate>=1.0",
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "pyyaml>=6.0",
+    "rouge-score>=0.1.2",
+]
+
+[project.optional-dependencies]
+train = ["peft>=0.17", "trl>=1.0", "datasets>=3.0"]
+gpu = ["bitsandbytes>=0.46", "vllm>=0.10"]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
