@@ -1,0 +1,45 @@
+{
+  "tag": "mac-m4max",
+  "results": [
+    {
+      "check": "system",
+      "python": "3.13.12",
+      "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+      "torch": "2.14.0",
+      "torch_cuda": null,
+      "cuda_available": false,
+      "mps_available": true,
+      "packages": {
+        "transformers": "5.17.0",
+        "peft": "0.21.1",
+        "trl": null,
+        "bitsandbytes": null,
+        "vllm": null,
+        "flash_attn": null
+      },
+      "notes": [],
+      "status": "ok"
+    },
+    {
+      "check": "matmul",
+      "status": "ok",
+      "device": "mps",
+      "mean_abs": 37.055
+    },
+    {
+      "check": "qlora",
+      "status": "skip",
+      "reason": "no CUDA (bitsandbytes 4-bit training needs a CUDA GPU)"
+    },
+    {
+      "check": "vllm",
+      "status": "skip",
+      "reason": "no CUDA"
+    },
+    {
+      "check": "flash_attn",
+      "status": "skip",
+      "reason": "no CUDA"
+    }
+  ]
+}
