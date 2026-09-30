@@ -114,7 +114,7 @@ def _versions() -> dict:
 def _git_state() -> dict:
     try:
         sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
-        dirty = bool(subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True).strip())
+        dirty = bool(subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=no"], cwd=ROOT, text=True).strip())
         return {"commit": sha, "dirty": dirty}
     except (subprocess.CalledProcessError, FileNotFoundError):
         return {"commit": None, "dirty": None}
