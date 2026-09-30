@@ -41,8 +41,13 @@ def test_load_raw_rejects_unpaired(tmp_path):
 
 
 def test_normalize_text_keeps_lines_and_collapses_spaces():
-    raw = "  Revenue  rose  5%. \n\n\tEPS was $1.20.  \n"
+    raw = "  Revenue  rose\u00a0 5%. \n\n\tEPS was $1.20.  \n"
     assert clean_mod.normalize_text(raw) == "Revenue rose 5%.\nEPS was $1.20."
+
+
+def test_normalize_text_splits_glued_years():
+    assert clean_mod.normalize_text("sales in 2020.2021 outlook") == "sales in 2020. 2021 outlook"
+    assert clean_mod.normalize_text("eps 2020.25") == "eps 2020.25"
 
 
 def _frame(rows):

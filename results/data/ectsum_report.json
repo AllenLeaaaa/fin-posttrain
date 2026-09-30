@@ -16,7 +16,7 @@
     "commit": "6909f1fc543104c1c60cf9de63e799f6620d1b0a",
     "license": "GPL-3.0"
   },
-  "created_at": "2026-09-30T04:33:15+00:00",
+  "created_at": "2026-09-30T04:35:35+00:00",
   "words": {
     "test": {
       "transcript": {
@@ -86,6 +86,23 @@
         "p99": 11,
         "p100": 13
       }
+    }
+  },
+  "reference_unsupported_numbers": {
+    "test": {
+      "numbers": 2618,
+      "unsupported": 342,
+      "rate": 0.1306
+    },
+    "train": {
+      "numbers": 9345,
+      "unsupported": 1192,
+      "rate": 0.1276
+    },
+    "val": {
+      "numbers": 1353,
+      "unsupported": 170,
+      "rate": 0.1256
     }
   },
   "tokens": {

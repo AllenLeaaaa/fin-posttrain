@@ -7,7 +7,10 @@ import unicodedata
 
 import pandas as pd
 
-_SPACES_RE = re.compile(r"[ \t ]+")
+_SPACES_RE = re.compile(r"[ \t\u00a0]+")
+# A few ECTSum sentences are glued together across a year ("in 2020.2020 adjusted"),
+# which would otherwise parse as the decimal 2020.2020.
+_GLUED_YEARS_RE = re.compile(r"\b((?:19|20)\d{2})\.((?:19|20)\d{2})\b")
 
 
 def normalize_text(text: str) -> str:
@@ -17,6 +20,7 @@ def normalize_text(text: str) -> str:
     uses newlines as sentence boundaries.
     """
     text = unicodedata.normalize("NFKC", text)
+    text = _GLUED_YEARS_RE.sub(r"\1. \2", text)
     lines = (_SPACES_RE.sub(" ", line).strip() for line in text.splitlines())
     return "\n".join(line for line in lines if line)
 

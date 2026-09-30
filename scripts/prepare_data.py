@@ -17,6 +17,7 @@ import numpy as np
 
 from finpost.data import clean as clean_mod
 from finpost.data import ectsum, store
+from finpost.eval.numeric import number_set, unsupported_numbers
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -47,6 +48,18 @@ def main() -> None:
             "transcript": _percentiles(part["n_words_transcript"]),
             "summary": _percentiles(part["n_words_summary"]),
             "summary_lines": _percentiles(part["n_summary_lines"]),
+        }
+
+    # How often do the human-written references cite numbers that aren't in the
+    # transcript? This is the floor for the numeric hallucination metric.
+    report["reference_unsupported_numbers"] = {}
+    for split, part in df.groupby("split"):
+        total = sum(len(number_set(s)) for s in part["summary"])
+        missing = sum(len(unsupported_numbers(s, t)) for s, t in zip(part["summary"], part["transcript"]))
+        report["reference_unsupported_numbers"][split] = {
+            "numbers": total,
+            "unsupported": missing,
+            "rate": round(missing / total, 4),
         }
 
     if args.tokenizer:
