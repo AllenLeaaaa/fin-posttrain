@@ -1,0 +1,23 @@
+# Shared by the baseline, SFT, and DPO evals so their numbers are comparable.
+# Change a value here only together with a note in the README.
+
+split: test
+
+# Transcript token budget (whole lines kept from the start). On the test split:
+#   2048 -> 63% of reference figures still in the input
+#   4096 -> 94%   (36% of docs truncated)
+#   6144 -> 99%   (5% of docs truncated)
+# 4096 is the default until we know what SFT fits in 16 GB; revisit after
+# scripts/env_check.py has been run on the GPU.
+max_input_tokens: 4096
+
+# Reference summaries: p99 = 170 words (~250 tokens).
+max_new_tokens: 320
+
+# Greedy decoding, no repetition penalty, so HF and vLLM backends should give
+# the same outputs up to kernel-level numerical differences.
+temperature: 0.0
+repetition_penalty: 1.0
+
+# Exact-match number support (comparable to ECTSum's Num-Prec).
+allow_rounding: false
